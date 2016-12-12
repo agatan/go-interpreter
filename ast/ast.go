@@ -134,10 +134,7 @@ func (b *Boolean) TokenLiteral() string {
 	return b.Token.Literal
 }
 func (b *Boolean) String() string {
-	if b.Value {
-		return "true"
-	}
-	return "false"
+	return fmt.Sprintf("%t", b.Value)
 }
 
 type PrefixExpression struct {
