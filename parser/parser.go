@@ -321,12 +321,17 @@ func (p *Parser) parseBlockStatement() *ast.BlockStatement {
 
 	p.nextToken()
 
-	for !p.curTokenIs(token.RBRACE) && !p.curTokenIs(token.EOF) {
+	for !p.curTokenIs(token.RBRACE) {
 		stmt := p.parseStatement()
 		if stmt != nil {
 			block.Statements = append(block.Statements, stmt)
 		}
 		p.nextToken()
+		if p.curTokenIs(token.EOF) {
+			msg := fmt.Sprintf("unexpected token %s", p.curToken.Type)
+			p.errors = append(p.errors, msg)
+			return nil
+		}
 	}
 
 	return block
